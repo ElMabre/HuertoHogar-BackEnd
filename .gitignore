@@ -31,3 +31,22 @@ build/
 
 ### VS Code ###
 .vscode/
+# Archivos compilados de Java/Maven
+target/
+*.jar
+*.war
+
+# Logs
+*.log
+
+# Archivos de IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db

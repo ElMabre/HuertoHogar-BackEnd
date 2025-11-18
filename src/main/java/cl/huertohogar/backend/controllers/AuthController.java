@@ -55,38 +55,43 @@ public class AuthController {
                 .build());
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
-        
-        // 1. Verificar si el email o RUN ya existen
-        if (usuarioRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El email ya está en uso");
-        }
-        // (Podríamos añadir validación de RUN también)
-
-        // 2. Crear el nuevo usuario
-        Usuario usuario = Usuario.builder()
-                .nombre(request.getNombre())
-                .apellido(request.getApellido())
-                .run(request.getRun())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword())) // ¡Encriptar la contraseña!
-                .region(request.getRegion())
-                .comuna(request.getComuna())
-                .direccion(request.getDireccion())
-                .rol(Rol.CLIENTE) // Todos los registros son "CLIENTE" por defecto
-                .build();
-
-        // 3. Guardar el usuario en la BD
-        Usuario usuarioGuardado = usuarioRepository.save(usuario);
-
-        // 4. Generar el token para el nuevo usuario (login automático)
-        String token = jwtService.generateToken(usuarioGuardado);
-
-        // 5. Devolver la respuesta
-        return ResponseEntity.status(HttpStatus.CREATED).body(AuthResponse.builder()
-                .token(token)
-                .usuario(usuarioGuardado)
-                .build());
+    // Este es el método register() modificado
+@PostMapping("/register")
+public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+    
+    // 1. Verificar si el email o RUN ya existen
+    if (usuarioRepository.findByEmail(request.getEmail()).isPresent()) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El email ya está en uso");
     }
+
+    // Revisa si hay usuarios en la BD. Si no hay (count = 0), este es el primer usuario.
+    boolean isFirstUser = usuarioRepository.count() == 0;
+    Rol rolAsignado = isFirstUser ? Rol.ADMIN : Rol.CLIENTE;
+
+
+    // 2. Crear el nuevo usuario
+    Usuario usuario = Usuario.builder()
+            .nombre(request.getNombre())
+            .apellido(request.getApellido())
+            .run(request.getRun())
+            .email(request.getEmail())
+            .password(passwordEncoder.encode(request.getPassword())) // ¡Encriptar la contraseña!
+            .region(request.getRegion())
+            .comuna(request.getComuna())
+            .direccion(request.getDireccion())
+            .rol(rolAsignado) // <-- USAMOS LA VARIABLE DE ROL
+            .build();
+
+    // 3. Guardar el usuario en la BD
+    Usuario usuarioGuardado = usuarioRepository.save(usuario);
+
+    // 4. Generar el token para el nuevo usuario (login automático)
+    String token = jwtService.generateToken(usuarioGuardado);
+
+    // 5. Devolver la respuesta
+    return ResponseEntity.status(HttpStatus.CREATED).body(AuthResponse.builder()
+            .token(token)
+            .usuario(usuarioGuardado)
+            .build());
+}
 }

@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>cl.huertohogar</groupId>
 	<artifactId>ms-usuarios</artifactId>
-	<version>0.1 Desarrollo</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>ms-usuarios</name>
 	<description>Microservicio de Usuarios y Autenticación</description>
 	<url />

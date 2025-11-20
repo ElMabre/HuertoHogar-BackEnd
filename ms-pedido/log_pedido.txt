@@ -1,0 +1,57 @@
+nohup: ignoring input
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2025-11-20T02:30:51.693Z  INFO 2117 --- [ms-pedidos] [           main] c.h.pedido.MsPedidoApplication           : Starting MsPedidoApplication v0.0.1-SNAPSHOT using Java 21.0.8 with PID 2117 (/home/ubuntu/HuertoHogar-BackEnd/ms-pedido/target/ms-pedido-0.0.1-SNAPSHOT.jar started by ubuntu in /home/ubuntu/HuertoHogar-BackEnd/ms-pedido)
+2025-11-20T02:30:51.699Z  INFO 2117 --- [ms-pedidos] [           main] c.h.pedido.MsPedidoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-11-20T02:30:54.034Z  INFO 2117 --- [ms-pedidos] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-20T02:30:54.200Z  INFO 2117 --- [ms-pedidos] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 147 ms. Found 3 JPA repository interfaces.
+2025-11-20T02:30:56.183Z  INFO 2117 --- [ms-pedidos] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8083 (http)
+2025-11-20T02:30:56.225Z  INFO 2117 --- [ms-pedidos] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-20T02:30:56.225Z  INFO 2117 --- [ms-pedidos] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-20T02:30:56.495Z  INFO 2117 --- [ms-pedidos] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-11-20T02:30:56.497Z  INFO 2117 --- [ms-pedidos] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4672 ms
+2025-11-20T02:30:57.534Z  INFO 2117 --- [ms-pedidos] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-20T02:30:57.656Z  INFO 2117 --- [ms-pedidos] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2025-11-20T02:30:57.744Z  INFO 2117 --- [ms-pedidos] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-11-20T02:30:58.477Z  INFO 2117 --- [ms-pedidos] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-20T02:30:58.557Z  INFO 2117 --- [ms-pedidos] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-11-20T02:30:59.565Z  INFO 2117 --- [ms-pedidos] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@c6244e7
+2025-11-20T02:30:59.568Z  INFO 2117 --- [ms-pedidos] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-11-20T02:30:59.733Z  WARN 2117 --- [ms-pedidos] [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-20T02:30:59.789Z  INFO 2117 --- [ms-pedidos] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.43
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-20T02:31:03.368Z  INFO 2117 --- [ms-pedidos] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-20T02:31:03.707Z  INFO 2117 --- [ms-pedidos] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-20T02:31:04.987Z  WARN 2117 --- [ms-pedidos] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-20T02:31:05.607Z  WARN 2117 --- [ms-pedidos] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: f204613c-11b1-4ec6-83ff-9841f7f517a2
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-20T02:31:05.632Z  INFO 2117 --- [ms-pedidos] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-20T02:31:06.033Z  INFO 2117 --- [ms-pedidos] [           main] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-11-20T02:31:06.719Z  INFO 2117 --- [ms-pedidos] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path '/'
+2025-11-20T02:31:06.771Z  INFO 2117 --- [ms-pedidos] [           main] c.h.pedido.MsPedidoApplication           : Started MsPedidoApplication in 16.299 seconds (process running for 17.737)
+2025-11-20T02:33:22.656Z  INFO 2117 --- [ms-pedidos] [nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-20T02:33:22.657Z  INFO 2117 --- [ms-pedidos] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-11-20T02:33:22.660Z  INFO 2117 --- [ms-pedidos] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2025-11-20T02:34:45.876Z  INFO 2117 --- [ms-pedidos] [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-20T02:34:45.909Z  INFO 2117 --- [ms-pedidos] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-11-20T02:34:45.958Z  INFO 2117 --- [ms-pedidos] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-20T02:34:45.990Z  INFO 2117 --- [ms-pedidos] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-11-20T02:34:46.088Z  INFO 2117 --- [ms-pedidos] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

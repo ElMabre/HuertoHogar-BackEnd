@@ -1,0 +1,64 @@
+nohup: ignoring input
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2025-11-20T14:11:50.281Z  INFO 2428 --- [ms-pedidos] [           main] c.h.pedido.MsPedidoApplication           : Starting MsPedidoApplication v0.0.1-SNAPSHOT using Java 21.0.8 with PID 2428 (/home/ubuntu/HuertoHogar-BackEnd/ms-pedido/target/ms-pedido-0.0.1-SNAPSHOT.jar started by ubuntu in /home/ubuntu/HuertoHogar-BackEnd/ms-pedido)
+2025-11-20T14:11:50.287Z  INFO 2428 --- [ms-pedidos] [           main] c.h.pedido.MsPedidoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-11-20T14:11:52.564Z  INFO 2428 --- [ms-pedidos] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-20T14:11:52.735Z  INFO 2428 --- [ms-pedidos] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 143 ms. Found 3 JPA repository interfaces.
+2025-11-20T14:11:54.477Z  INFO 2428 --- [ms-pedidos] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8083 (http)
+2025-11-20T14:11:54.524Z  INFO 2428 --- [ms-pedidos] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-20T14:11:54.526Z  INFO 2428 --- [ms-pedidos] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-20T14:11:54.810Z  INFO 2428 --- [ms-pedidos] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-11-20T14:11:54.813Z  INFO 2428 --- [ms-pedidos] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4405 ms
+2025-11-20T14:11:55.789Z  INFO 2428 --- [ms-pedidos] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-20T14:11:55.924Z  INFO 2428 --- [ms-pedidos] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2025-11-20T14:11:56.018Z  INFO 2428 --- [ms-pedidos] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-11-20T14:11:56.709Z  INFO 2428 --- [ms-pedidos] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-20T14:11:56.786Z  INFO 2428 --- [ms-pedidos] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-11-20T14:11:57.811Z  INFO 2428 --- [ms-pedidos] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@25dad235
+2025-11-20T14:11:57.818Z  INFO 2428 --- [ms-pedidos] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-11-20T14:11:58.057Z  WARN 2428 --- [ms-pedidos] [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-20T14:11:58.104Z  INFO 2428 --- [ms-pedidos] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.43
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-20T14:12:00.544Z  INFO 2428 --- [ms-pedidos] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-20T14:12:00.946Z  INFO 2428 --- [ms-pedidos] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-20T14:12:02.261Z  WARN 2428 --- [ms-pedidos] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-20T14:12:02.911Z  WARN 2428 --- [ms-pedidos] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 0206997b-6846-4ecf-ab10-b204a7e18547
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-20T14:12:02.937Z  INFO 2428 --- [ms-pedidos] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-20T14:12:03.388Z  INFO 2428 --- [ms-pedidos] [           main] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-11-20T14:12:04.129Z  INFO 2428 --- [ms-pedidos] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path '/'
+2025-11-20T14:12:04.190Z  INFO 2428 --- [ms-pedidos] [           main] c.h.pedido.MsPedidoApplication           : Started MsPedidoApplication in 15.038 seconds (process running for 16.454)
+2025-11-20T14:14:10.503Z  INFO 2428 --- [ms-pedidos] [nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-20T14:14:10.505Z  INFO 2428 --- [ms-pedidos] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-11-20T14:14:10.510Z  INFO 2428 --- [ms-pedidos] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+Hibernate: select p1_0.id,p1_0.estado,p1_0.fecha,p1_0.metodo_pago,p1_0.total,p1_0.usuario_id from pedidos p1_0
+Hibernate: select u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1_0.nombre,u1_0.password,u1_0.region,u1_0.rol,u1_0.run from usuarios u1_0 where u1_0.id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select p1_0.id,p1_0.estado,p1_0.fecha,p1_0.metodo_pago,p1_0.total,p1_0.usuario_id,u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1_0.nombre,u1_0.password,u1_0.region,u1_0.rol,u1_0.run,d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p3_0.id,p3_0.categoria,p3_0.descripcion,p3_0.imagen,p3_0.nombre,p3_0.origen,p3_0.precio,p3_0.sku,p3_0.stock,p3_0.unidad from pedidos p1_0 join usuarios u1_0 on u1_0.id=p1_0.usuario_id left join detalles_pedido d1_0 on p1_0.id=d1_0.pedido_id left join productos p3_0 on p3_0.id=d1_0.producto_id where p1_0.id=?
+Hibernate: update pedidos set estado=?,fecha=?,metodo_pago=?,total=?,usuario_id=? where id=?
+Hibernate: select p1_0.id,p1_0.estado,p1_0.fecha,p1_0.metodo_pago,p1_0.total,p1_0.usuario_id from pedidos p1_0
+Hibernate: select u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1_0.nombre,u1_0.password,u1_0.region,u1_0.rol,u1_0.run from usuarios u1_0 where u1_0.id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?

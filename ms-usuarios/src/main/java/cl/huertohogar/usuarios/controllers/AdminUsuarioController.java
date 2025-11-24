@@ -16,23 +16,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/usuarios")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')") // Toda la clase requiere ROL ADMIN
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminUsuarioController {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * Endpoint ADMIN para obtener todos los usuarios.
-     */
     @GetMapping
     public ResponseEntity<List<Usuario>> getAllUsuarios() {
         return ResponseEntity.ok(usuarioRepository.findAll());
     }
 
-    /**
-     * Endpoint ADMIN para obtener un usuario por ID.
-     */
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
         Usuario usuario = usuarioRepository.findById(id)
@@ -40,11 +34,6 @@ public class AdminUsuarioController {
         return ResponseEntity.ok(usuario);
     }
 
-    /**
-     * Endpoint ADMIN para crear un nuevo usuario (con rol).
-     * Nota: Este es un DTO simple, pero por simplicidad usamos la entidad.
-     * En un caso real, usaríamos un DTO para no exponer la contraseña.
-     */
     @PostMapping
     public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuarioRequest) {
         if (usuarioRepository.findByEmail(usuarioRequest.getEmail()).isPresent()) {
@@ -56,20 +45,39 @@ public class AdminUsuarioController {
                 .apellido(usuarioRequest.getApellido())
                 .run(usuarioRequest.getRun())
                 .email(usuarioRequest.getEmail())
-                .password(passwordEncoder.encode(usuarioRequest.getPassword())) // Encriptar contraseña
+                .password(passwordEncoder.encode(usuarioRequest.getPassword()))
                 .region(usuarioRequest.getRegion())
                 .comuna(usuarioRequest.getComuna())
                 .direccion(usuarioRequest.getDireccion())
-                .rol(usuarioRequest.getRol() != null ? usuarioRequest.getRol() : Rol.CLIENTE) // Asignar rol
+                .rol(usuarioRequest.getRol() != null ? usuarioRequest.getRol() : Rol.CLIENTE)
                 .build();
         
         usuarioRepository.save(nuevoUsuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
     }
 
-    /**
-     * Endpoint ADMIN para eliminar un usuario por ID.
-     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody Usuario usuarioDetalles) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+
+        usuario.setNombre(usuarioDetalles.getNombre());
+        usuario.setApellido(usuarioDetalles.getApellido());
+        usuario.setEmail(usuarioDetalles.getEmail());
+        usuario.setRun(usuarioDetalles.getRun());
+        usuario.setRol(usuarioDetalles.getRol());
+        usuario.setRegion(usuarioDetalles.getRegion());
+        usuario.setComuna(usuarioDetalles.getComuna());
+        usuario.setDireccion(usuarioDetalles.getDireccion());
+
+        if (usuarioDetalles.getPassword() != null && !usuarioDetalles.getPassword().isEmpty()) {
+            usuario.setPassword(passwordEncoder.encode(usuarioDetalles.getPassword()));
+        }
+
+        Usuario usuarioActualizado = usuarioRepository.save(usuario);
+        return ResponseEntity.ok(usuarioActualizado);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
         Usuario usuario = usuarioRepository.findById(id)

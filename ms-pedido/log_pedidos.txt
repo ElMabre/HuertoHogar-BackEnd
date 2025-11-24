@@ -62,3 +62,116 @@ Hibernate: select u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1
 Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
 Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
 Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select p1_0.id,p1_0.estado,p1_0.fecha,p1_0.metodo_pago,p1_0.total,p1_0.usuario_id from pedidos p1_0
+Hibernate: select u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1_0.nombre,u1_0.password,u1_0.region,u1_0.rol,u1_0.run from usuarios u1_0 where u1_0.id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select p1_0.id,p1_0.estado,p1_0.fecha,p1_0.metodo_pago,p1_0.total,p1_0.usuario_id from pedidos p1_0
+Hibernate: select u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1_0.nombre,u1_0.password,u1_0.region,u1_0.rol,u1_0.run from usuarios u1_0 where u1_0.id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1_0.nombre,u1_0.password,u1_0.region,u1_0.rol,u1_0.run from usuarios u1_0 where u1_0.email=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: insert into pedidos (estado,fecha,metodo_pago,total,usuario_id) values (?,?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: select u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1_0.nombre,u1_0.password,u1_0.region,u1_0.rol,u1_0.run from usuarios u1_0 where u1_0.email=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: insert into pedidos (estado,fecha,metodo_pago,total,usuario_id) values (?,?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: select u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1_0.nombre,u1_0.password,u1_0.region,u1_0.rol,u1_0.run from usuarios u1_0 where u1_0.email=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: insert into pedidos (estado,fecha,metodo_pago,total,usuario_id) values (?,?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: select u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1_0.nombre,u1_0.password,u1_0.region,u1_0.rol,u1_0.run from usuarios u1_0 where u1_0.email=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: insert into pedidos (estado,fecha,metodo_pago,total,usuario_id) values (?,?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: select u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1_0.nombre,u1_0.password,u1_0.region,u1_0.rol,u1_0.run from usuarios u1_0 where u1_0.email=?
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0 where p1_0.id=?
+Hibernate: update productos set categoria=?,descripcion=?,imagen=?,nombre=?,origen=?,precio=?,sku=?,stock=?,unidad=? where id=?
+Hibernate: insert into pedidos (estado,fecha,metodo_pago,total,usuario_id) values (?,?,?,?,?)
+Hibernate: insert into detalles_pedido (cantidad,pedido_id,precio_unitario,producto_id) values (?,?,?,?)
+Hibernate: select p1_0.id,p1_0.estado,p1_0.fecha,p1_0.metodo_pago,p1_0.total,p1_0.usuario_id from pedidos p1_0
+Hibernate: select u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1_0.nombre,u1_0.password,u1_0.region,u1_0.rol,u1_0.run from usuarios u1_0 where u1_0.id=?
+Hibernate: select u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1_0.nombre,u1_0.password,u1_0.region,u1_0.rol,u1_0.run from usuarios u1_0 where u1_0.id=?
+Hibernate: select u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1_0.nombre,u1_0.password,u1_0.region,u1_0.rol,u1_0.run from usuarios u1_0 where u1_0.id=?
+Hibernate: select u1_0.id,u1_0.apellido,u1_0.comuna,u1_0.direccion,u1_0.email,u1_0.nombre,u1_0.password,u1_0.region,u1_0.rol,u1_0.run from usuarios u1_0 where u1_0.id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+Hibernate: select d1_0.pedido_id,d1_0.id,d1_0.cantidad,d1_0.precio_unitario,d1_0.producto_id,p2_0.id,p2_0.categoria,p2_0.descripcion,p2_0.imagen,p2_0.nombre,p2_0.origen,p2_0.precio,p2_0.sku,p2_0.stock,p2_0.unidad from detalles_pedido d1_0 left join productos p2_0 on p2_0.id=d1_0.producto_id where d1_0.pedido_id=?
+2025-11-20T15:16:16.493Z  INFO 2428 --- [ms-pedidos] [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-20T15:16:16.623Z  INFO 2428 --- [ms-pedidos] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-11-20T15:16:16.855Z  INFO 2428 --- [ms-pedidos] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-20T15:16:17.073Z  INFO 2428 --- [ms-pedidos] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-11-20T15:16:17.125Z  INFO 2428 --- [ms-pedidos] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

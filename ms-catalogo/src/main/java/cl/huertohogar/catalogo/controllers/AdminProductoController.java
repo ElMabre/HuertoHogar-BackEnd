@@ -14,25 +14,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/productos")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')") // ¡IMPORTANTE! Toda la clase requiere ROL ADMIN
+// Seguridad crítica: Esta anotación protege TODOS los endpoints de esta clase. 
+// Solo los usuarios que tengan el rol 'ADMIN' (validado en el filtro JWT) pueden acceder aquí.
+@PreAuthorize("hasRole('ADMIN')") 
 public class AdminProductoController {
 
     private final ProductoRepository productoRepository;
 
-    /**
-     * Endpoint ADMIN para obtener todos los productos (similar al público, pero protegido).
-     */
     @GetMapping
     public ResponseEntity<List<Producto>> getAllProductos() {
         return ResponseEntity.ok(productoRepository.findAll());
     }
 
-    /**
-     * Endpoint ADMIN para crear un nuevo producto.
-     */
     @PostMapping
     public ResponseEntity<Producto> createProducto(@RequestBody Producto producto) {
-        // Validación simple para evitar SKU duplicado
+        // Validación de negocio: Antes de guardar, verificamos si el SKU ya existe para evitar duplicados.
         if (productoRepository.findBySku(producto.getSku()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El SKU ya existe");
         }
@@ -40,16 +36,13 @@ public class AdminProductoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoProducto);
     }
 
-    /**
-     * Endpoint ADMIN para actualizar un producto existente por su ID.
-     */
     @PutMapping("/{id}")
     public ResponseEntity<Producto> updateProducto(@PathVariable Long id, @RequestBody Producto productoDetalles) {
-        // 1. Buscar el producto
+        // Patrón estándar: Primero buscamos el recurso. Si no existe, lanzamos 404 (Not Found) inmediatamente.
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
 
-        // 2. Actualizar los campos
+        // Actualización explícita: Mapeamos los datos nuevos sobre la entidad existente.
         producto.setSku(productoDetalles.getSku());
         producto.setNombre(productoDetalles.getNombre());
         producto.setPrecio(productoDetalles.getPrecio());
@@ -59,25 +52,22 @@ public class AdminProductoController {
         producto.setImagen(productoDetalles.getImagen());
         producto.setOrigen(productoDetalles.getOrigen());
         producto.setUnidad(productoDetalles.getUnidad());
-
-        // 3. Guardar los cambios
+        
         Producto productoActualizado = productoRepository.save(producto);
         return ResponseEntity.ok(productoActualizado);
     }
 
-    /**
-     * Endpoint ADMIN para eliminar un producto por su ID.
-     */
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProducto(@PathVariable Long id) {
-        // 1. Buscar el producto
+        // Verificamos existencia antes de borrar para mantener consistencia en la respuesta (404 si ya no está).
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
 
-        // 2. Borrar el producto
+
         productoRepository.delete(producto);
 
-        // 3. Devolver respuesta OK sin contenido (204 No Content)
+        // Retornamos 204 No Content, que es el código HTTP correcto para un borrado exitoso donde no devolvemos cuerpo.
         return ResponseEntity.noContent().build();
     }
 }

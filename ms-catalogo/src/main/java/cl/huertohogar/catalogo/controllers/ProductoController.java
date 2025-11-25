@@ -20,24 +20,16 @@ public class ProductoController {
 
     private final ProductoRepository productoRepository;
 
-    /**
-     * Endpoint público para obtener todos los productos.
-     * @return Lista de todos los productos en la base de datos.
-     */
+    // Este endpoint es público. Coincide con la excepción que configuramos en SecurityConfiguration (.permitAll).
+    // Es el que usa el Home del frontend para cargar la grilla de productos.
     @GetMapping
     public ResponseEntity<List<Producto>> getAllProductos() {
         List<Producto> productos = productoRepository.findAll();
         return ResponseEntity.ok(productos);
     }
 
-    /**
-     * Endpoint público para obtener un producto por su SKU (ID de negocio).
-     * Nota: Tu frontend busca por SKU (ej. FR001), no por ID numérico (ej. 1, 2, 3).
-     * Por eso usamos findBySku.
-     *
-     * @param sku El SKU del producto (ej. "FR001").
-     * @return El producto encontrado o un error 404 si no existe.
-     */
+    // Importante: El frontend navega usando el SKU (ej: /producto/TOMATE-01) para tener URLs amigables (SEO),
+    // no usa el ID numérico interno de la base de datos (Long). Por eso aquí buscamos por SKU.
     @GetMapping("/{sku}")
     public ResponseEntity<Producto> getProductoBySku(@PathVariable String sku) {
         Producto producto = productoRepository.findBySku(sku)

@@ -16,10 +16,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/usuarios")
 @RequiredArgsConstructor
+// Seguridad Robusta: Esta anotación protege TODOS los métodos de la clase.
+// Cualquier intento de acceso sin el token con claim "rol: ADMIN" será rechazado con 403 Forbidden.
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminUsuarioController {
 
     private final UsuarioRepository usuarioRepository;
+    // Inyectamos el encoder para hashear contraseñas si el admin crea o modifica usuarios manualmente.
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping
@@ -36,6 +39,7 @@ public class AdminUsuarioController {
 
     @PostMapping
     public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuarioRequest) {
+        // Validación de negocio: Evitamos excepciones de SQL (Unique Constraint) validando antes manualmente.
         if (usuarioRepository.findByEmail(usuarioRequest.getEmail()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El email ya está en uso");
         }
@@ -45,10 +49,12 @@ public class AdminUsuarioController {
                 .apellido(usuarioRequest.getApellido())
                 .run(usuarioRequest.getRun())
                 .email(usuarioRequest.getEmail())
+                // SEGURIDAD CRÍTICA: Nunca guardar la password tal cual viene del JSON. Siempre pasarla por el encoder.
                 .password(passwordEncoder.encode(usuarioRequest.getPassword()))
                 .region(usuarioRequest.getRegion())
                 .comuna(usuarioRequest.getComuna())
                 .direccion(usuarioRequest.getDireccion())
+                // Si el JSON no trae rol, asignamos CLIENTE por defecto para evitar nulos.
                 .rol(usuarioRequest.getRol() != null ? usuarioRequest.getRol() : Rol.CLIENTE)
                 .build();
         
@@ -70,6 +76,9 @@ public class AdminUsuarioController {
         usuario.setComuna(usuarioDetalles.getComuna());
         usuario.setDireccion(usuarioDetalles.getDireccion());
 
+        // Lógica condicional de contraseña:
+        // Solo la actualizamos (y encriptamos) si el admin envió una nueva.
+        // Si viene nula o vacía, mantenemos la contraseña antigua para no bloquear al usuario.
         if (usuarioDetalles.getPassword() != null && !usuarioDetalles.getPassword().isEmpty()) {
             usuario.setPassword(passwordEncoder.encode(usuarioDetalles.getPassword()));
         }

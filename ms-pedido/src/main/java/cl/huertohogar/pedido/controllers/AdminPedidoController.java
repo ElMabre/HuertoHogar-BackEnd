@@ -15,23 +15,20 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/admin/pedidos")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')") // Toda la clase requiere ROL ADMIN
+// Seguridad de alto nivel: Al poner esto aquí, blindamos todos los métodos de la clase.
+// Solo los usuarios con JWT válido y claim "rol": "ADMIN" pueden entrar.
+@PreAuthorize("hasRole('ADMIN')") 
 public class AdminPedidoController {
 
     private final PedidoRepository pedidoRepository;
 
-    /**
-     * Endpoint ADMIN para obtener todos los pedidos.
-     */
     @GetMapping
     public ResponseEntity<List<Pedido>> getAllPedidos() {
-        // Usamos EAGER fetch en la entidad Pedido, así que esto traerá los detalles
+        // Estamos confiando en que la entidad Pedido tiene sus relaciones (Detalles) configuradas como EAGER.
+        // Esto trae toda la info de una sola vez. Si la base de datos crece mucho, esto podría ponerse lento y habría que paginar.
         return ResponseEntity.ok(pedidoRepository.findAll());
     }
 
-    /**
-     * Endpoint ADMIN para obtener un pedido por ID.
-     */
     @GetMapping("/{id}")
     public ResponseEntity<Pedido> getPedidoById(@PathVariable Long id) {
         Pedido pedido = pedidoRepository.findById(id)
@@ -39,13 +36,13 @@ public class AdminPedidoController {
         return ResponseEntity.ok(pedido);
     }
 
-    /**
-     * Endpoint ADMIN para actualizar el estado de un pedido.
-     * Recibimos un JSON simple, ej: { "estado": "En camino" }
-     */
+    // Usamos PATCH en lugar de PUT porque solo vamos a modificar un atributo específico (el estado),
+    // no vamos a reemplazar el objeto Pedido completo.
     @PatchMapping("/{id}/estado")
     public ResponseEntity<Pedido> updatePedidoEstado(
             @PathVariable Long id, 
+            //  Usamos un Map<String, String> para capturar el JSON { "estado": "..." }
+            // Esto nos evita crear una clase DTO (ej. UpdateStatusRequest) solo para recibir un campo.
             @RequestBody Map<String, String> estadoUpdate) {
         
         String nuevoEstado = estadoUpdate.get("estado");

@@ -29,7 +29,8 @@ public class PedidoController {
     private final UsuarioRepository usuarioRepository;
     private final ProductoRepository productoRepository;
 
-    // DTOs internos para recibir el JSON del carrito
+    // DTOs internos: Usamos estas clases estáticas solo para recibir la estructura JSON exacta que envía el carrito de compras.
+    // Es más limpio que crear archivos separados si solo se usan aquí.
     @Data
     public static class PedidoRequest {
         private Double total;
@@ -45,36 +46,40 @@ public class PedidoController {
 
     @PostMapping
     public ResponseEntity<Pedido> createPedido(@RequestBody PedidoRequest request) {
-        // 1. Obtener el usuario autenticado (desde el Token JWT)
+        // 1. SEGURIDAD: Identificamos al usuario desde el Token, NO desde el JSON del body.
+        // Esto evita que un usuario malintencionado haga un pedido a nombre de otro enviando un ID falso.
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName(); // El "subject" del token es el email
         
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 
-        // 2. Crear la cabecera del Pedido
+        // 2. Cabecera del Pedido: Creamos el objeto principal.
         Pedido pedido = new Pedido();
         pedido.setUsuario(usuario);
         pedido.setFecha(LocalDate.now());
-        pedido.setEstado("Pendiente");
-        pedido.setMetodoPago("Transferencia"); // Podrías recibir esto del front también
+        pedido.setEstado("Pendiente"); // Estado inicial por defecto.
+        pedido.setMetodoPago("Transferencia"); 
         pedido.setTotal(request.getTotal());
 
-        // 3. Procesar los productos (Detalles)
+        // 3. Lógica de Negocio: Procesamos cada ítem del carrito.
+        // Aquí hacemos dos cosas: Crear el detalle del pedido Y descontar el stock del inventario.
         List<DetallePedido> detalles = request.getProductos().stream().map(item -> {
             Producto producto = productoRepository.findById(item.getProductoId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado ID: " + item.getProductoId()));
 
-            // (Opcional) Validar Stock
+            // Validación crítica: No vender lo que no tenemos.
             if (producto.getStock() < item.getCantidad()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Stock insuficiente para: " + producto.getNombre());
             }
-            // Descontar stock
+            
+            // Actualización de Inventario: Restamos el stock inmediatamente.
             producto.setStock(producto.getStock() - item.getCantidad());
-            productoRepository.save(producto);
+            productoRepository.save(producto); // Guardamos el nuevo stock del producto.
 
+            // Creamos la línea de detalle
             DetallePedido detalle = new DetallePedido();
-            detalle.setPedido(pedido);
+            detalle.setPedido(pedido); // Vinculamos al padre
             detalle.setProducto(producto);
             detalle.setCantidad(item.getCantidad());
             detalle.setPrecioUnitario(item.getPrecio());
@@ -83,8 +88,10 @@ public class PedidoController {
 
         pedido.setDetalles(detalles);
 
-        // 4. Guardar todo en cascada
+        // 4. Persistencia en Cascada: Al guardar el 'pedido' (padre), JPA guardará automáticamente todos los 'detalles' (hijos).
+        // Esto funciona gracias a la configuración @OneToMany(cascade = CascadeType.ALL) en la entidad Pedido.
         Pedido nuevoPedido = pedidoRepository.save(pedido);
+        
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoPedido);
     }
 }

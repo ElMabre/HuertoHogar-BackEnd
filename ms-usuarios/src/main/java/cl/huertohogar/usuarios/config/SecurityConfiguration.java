@@ -24,40 +24,36 @@ import java.util.List;
 public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
+    // contiene la lógica para verificar passwords y buscar en BD.
     private final AuthenticationProvider authenticationProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // 1. Desactivar CSRF
             .csrf(csrf -> csrf.disable())
-
-            // 2. Configurar CORS
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
-            // 3. Reglas de autorización
             .authorizeHttpRequests(auth -> auth
-                    // RUTAS PÚBLICAS (Auth)
+                    // Estas son las únicas puertas abiertas del sistema.
+                    // Permitimos acceso total a Login y Registro. Sin esto, nadie entra.
                     .requestMatchers("/api/auth/**").permitAll()
 
-                    // RUTAS PÚBLICAS (Swagger / Documentación)
+                    // Documentación (Swagger)
                     .requestMatchers("/doc/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() 
 
-                    // Esta ruta era del monolito para ver productos, en este microservicio de usuarios 
-                    // técnicamente no hace falta, pero no daña dejarla por ahora.
+                    // Legacy: Mantuvimos esta regla de productos por si acaso, aunque en este microservicio 
+                    // de Usuarios no debería haber lógica de productos. Se puede borrar en el futuro.
                     .requestMatchers(HttpMethod.GET, "/api/productos/**").permitAll() 
 
-                    // CUALQUIER OTRA RUTA (requiere autenticación)
+                    // El resto (ver perfiles, actualizar datos, etc.) requiere Token.
                     .anyRequest().authenticated()
             )
 
-            // 4. Gestión de sesiones (Stateless)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-            // 5. Proveedor de autenticación
+            // Diferencia clave con otros módulos: Aquí inyectamos el proveedor que valida las credenciales reales.
             .authenticationProvider(authenticationProvider)
 
-            // 6. Filtro JWT
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -66,6 +62,7 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+        // Misma configuración de orígenes que en los otros microservicios.
         configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://18.211.31.168", "http://localhost"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Cache-Control"));

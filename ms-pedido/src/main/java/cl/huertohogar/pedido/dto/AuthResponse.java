@@ -11,6 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthResponse {
+    
+    // El JWT que el cliente debe guardar.
     private String token;
-    private Usuario usuario; // Enviamos los datos del usuario también
+    
+    // UX: Retornamos el usuario completo para que el frontend pueda pintar la interfaz (nombre, email) de inmediato.
+    // IMPORTANTE: Asegurarse de que la entidad Usuario tenga @JsonIgnore en el password, si no, lo estaremos enviando aquí.
+    private Usuario usuario; 
 }

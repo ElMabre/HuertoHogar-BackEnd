@@ -18,6 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
+// Al extender de OncePerRequestFilter, nos aseguramos de que este filtro se ejecute una sola vez por cada petición HTTP.
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -33,25 +34,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader("Authorization");
 
+        // Verificamos si no hay header o si no empieza con "Bearer ". 
+        // Si pasa esto, dejamos continuar la petición sin autenticar (útil para endpoints públicos como el login).
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        // Quitamos la palabra "Bearer " para quedarnos solo con el string del token.
         final String jwt = authHeader.substring(7);
-        
-        // 1. Validamos el token (sin ir a la BD)
+
+        // Aquí validamos que el token sea correcto (firma, expiración) usando nuestro servicio.
         DecodedJWT decodedJWT = jwtService.validateToken(jwt);
 
+        // Si el token es válido y el usuario aún no está autenticado en el contexto actual, procedemos a autenticarlo manualmente.
         if (decodedJWT != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // 2. Extraemos datos del token
             String userEmail = decodedJWT.getSubject();
-            String role = decodedJWT.getClaim("rol").asString(); // "ADMIN" o "CLIENTE"
-
-            // 3. Creamos los permisos (Spring Security espera "ROLE_ADMIN")
+            
+            // Extraemos el rol del token.
+            String role = decodedJWT.getClaim("rol").asString(); 
+            
+            // Creamos la autoridad. Ojo: Spring Security suele necesitar el prefijo "ROLE_" para que funcionen los @PreAuthorize.
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
-
-            // 4. Creamos la autenticación en memoria
+            
+            // Creamos el objeto de autenticación estándar de Spring.
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     userEmail,
                     null,
@@ -59,9 +65,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             );
             
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            
+            //  inyectamos la autenticación en el contexto de seguridad para que Spring sepa que el usuario es válido durante el resto del request.
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }
-
         filterChain.doFilter(request, response);
     }
 }

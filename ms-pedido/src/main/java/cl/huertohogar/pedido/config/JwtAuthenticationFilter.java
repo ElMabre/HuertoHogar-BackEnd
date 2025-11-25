@@ -33,6 +33,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader("Authorization");
 
+        // Verificación inicial: Si no hay token, dejamos pasar la petición. 
+        // Si el endpoint necesita protección, SecurityConfiguration lo rebotará más adelante.
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -40,18 +42,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String jwt = authHeader.substring(7);
         
-        // 1. Validamos el token (sin ir a la BD)
+        // 1. Validamos el token (Validación Stateless).
+        // Importante: Aquí solo verificamos la firma criptográfica. No vamos a la base de datos.
+        // Esto hace que el microservicio de pedidos sea muy rápido al autenticar.
         DecodedJWT decodedJWT = jwtService.validateToken(jwt);
 
         if (decodedJWT != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // 2. Extraemos datos del token
+            // 2. Extraemos la identidad desde el token
             String userEmail = decodedJWT.getSubject();
-            String role = decodedJWT.getClaim("rol").asString(); // "ADMIN" o "CLIENTE"
+            String role = decodedJWT.getClaim("rol").asString(); 
 
-            // 3. Creamos los permisos (Spring Security espera "ROLE_ADMIN")
+            // 3. Adaptación de Rol para Spring Security
+            // Recuerden: Spring requiere el prefijo "ROLE_" para que funcionen los @PreAuthorize.
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
 
-            // 4. Creamos la autenticación en memoria
+            // 4. Autenticación en Memoria
+            // Construimos la sesión temporal válida solo para este request.
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     userEmail,
                     null,
@@ -59,6 +65,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             );
             
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            
+            // Paso Final: Inyectamos la autenticación en el contexto. 
+            // A partir de esta línea, para Spring el usuario está "logueado".
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }
 

@@ -18,10 +18,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-@RequiredArgsConstructor // Constructor con todos los campos final
+@RequiredArgsConstructor 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
+    // Inyectamos el servicio que conecta con la BD de usuarios.
     private final UserDetailsService userDetailsService;
 
     @Override
@@ -31,44 +32,40 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        // 1. Obtener el token del header "Authorization"
         final String authHeader = request.getHeader("Authorization");
 
-        // Si no hay header o no empieza con "Bearer ", pasamos al siguiente filtro
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 2. Extraer el token (quitando "Bearer ")
         final String jwt = authHeader.substring(7);
 
-        // 3. Validar el token y extraer el email
+        // Validamos la firma del token y obtenemos el email.
         final String userEmail = jwtService.validateTokenAndGetEmail(jwt);
 
-        // 4. Si el token es válido y no hay nadie autenticado en el contexto
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // Buscamos al usuario en la BD
+            
+            // DIFERENCIA CLAVE CON OTROS MÓDULOS:
+            // Aquí SÍ vamos a la base de datos (loadUserByUsername) por cada petición.
+            // Al ser el microservicio de "Usuarios", necesitamos la información más fresca posible
+            // (ej: si el usuario fue bloqueado hace 1 segundo, aquí lo detectamos inmediatamente).
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
-            // (Aquí podríamos validar el token más a fondo si quisiéramos)
-
-            // Creamos la autenticación
+            // Creamos el objeto de autenticación usando los datos reales de la BD (userDetails).
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     userDetails,
-                    null, // No usamos credenciales (password) aquí
+                    null, // No necesitamos la contraseña aquí, ya están autenticados por token.
                     userDetails.getAuthorities()
             );
+            
             authToken.setDetails(
                     new WebAuthenticationDetailsSource().buildDetails(request)
             );
 
-            // 5. Guardamos la autenticación en el Contexto de Seguridad
-            // Spring Security ahora sabe que este usuario está autenticado
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }
 
-        // 6. Pasamos al siguiente filtro en la cadena
         filterChain.doFilter(request, response);
     }
 }

@@ -35,63 +35,61 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
-        // 1. Autenticar al usuario usando el AuthenticationManager
+        // Delega la validación de credenciales a Spring Security.
+        // Si la password no coincide, esto lanza una excepción automática (BadCredentialsException) y corta el flujo.
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
-        // 2. Si la autenticación es exitosa, obtener los detalles del usuario
+        // Si llegamos aquí, las credenciales son válidas. Recuperamos el usuario para la respuesta.
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Usuario usuario = usuarioRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener datos de usuario post-login"));
 
-        // 3. Generar el token JWT
+        // Generamos la "llave maestra" (Token) para las siguientes peticiones.
         String token = jwtService.generateToken(usuario);
 
-        // 4. Devolver el token y los datos del usuario
         return ResponseEntity.ok(AuthResponse.builder()
                 .token(token)
                 .usuario(usuario)
                 .build());
     }
 
-    // Este es el método register() modificado
-@PostMapping("/register")
-public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
-    
-    // 1. Verificar si el email o RUN ya existen
-    if (usuarioRepository.findByEmail(request.getEmail()).isPresent()) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El email ya está en uso");
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+        
+        if (usuarioRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El email ya está en uso");
+        }
+
+        // LÓGICA DE BOOTSTRAP / INICIO DE SISTEMA:
+        // Si la base de datos está vacía, asumimos que el primer usuario registrado es el dueño/admin.
+        // Esto evita tener que insertar el primer admin manualmente por SQL.
+        boolean isFirstUser = usuarioRepository.count() == 0;
+        Rol rolAsignado = isFirstUser ? Rol.ADMIN : Rol.CLIENTE;
+
+
+        Usuario usuario = Usuario.builder()
+                .nombre(request.getNombre())
+                .apellido(request.getApellido())
+                .run(request.getRun())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword())) // Seguridad: Hash obligatorio.
+                .region(request.getRegion())
+                .comuna(request.getComuna())
+                .direccion(request.getDireccion())
+                .rol(rolAsignado) 
+                .build();
+
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
+
+        // UX (Experiencia de Usuario): Login automático.
+        // En lugar de obligar al usuario a loguearse después de registrarse, le damos el token de inmediato.
+        String token = jwtService.generateToken(usuarioGuardado);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(AuthResponse.builder()
+                .token(token)
+                .usuario(usuarioGuardado)
+                .build());
     }
-
-    // Revisa si hay usuarios en la BD. Si no hay (count = 0), este es el primer usuario.
-    boolean isFirstUser = usuarioRepository.count() == 0;
-    Rol rolAsignado = isFirstUser ? Rol.ADMIN : Rol.CLIENTE;
-
-
-    // 2. Crear el nuevo usuario
-    Usuario usuario = Usuario.builder()
-            .nombre(request.getNombre())
-            .apellido(request.getApellido())
-            .run(request.getRun())
-            .email(request.getEmail())
-            .password(passwordEncoder.encode(request.getPassword())) // ¡Encriptar la contraseña!
-            .region(request.getRegion())
-            .comuna(request.getComuna())
-            .direccion(request.getDireccion())
-            .rol(rolAsignado) // <-- USAMOS LA VARIABLE DE ROL
-            .build();
-
-    // 3. Guardar el usuario en la BD
-    Usuario usuarioGuardado = usuarioRepository.save(usuario);
-
-    // 4. Generar el token para el nuevo usuario (login automático)
-    String token = jwtService.generateToken(usuarioGuardado);
-
-    // 5. Devolver la respuesta
-    return ResponseEntity.status(HttpStatus.CREATED).body(AuthResponse.builder()
-            .token(token)
-            .usuario(usuarioGuardado)
-            .build());
-}
 }

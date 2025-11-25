@@ -1,5 +1,6 @@
 package cl.huertohogar.catalogo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,19 +13,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Entidad que representa la tabla 'usuarios' en la base de datos.
- * Implementa UserDetails para integrarse con Spring Security.
- */
-@Data // Lombok: Genera automáticamente getters, setters, toString, equals y hashCode
-@Builder // Lombok: Patrón de diseño Builder para construir objetos
-@NoArgsConstructor // Lombok: Constructor vacío
-@AllArgsConstructor // Lombok: Constructor con todos los argumentos
-@Entity // Indica que esta clase es una entidad JPA
+@Data 
+@Builder 
+@NoArgsConstructor 
+@AllArgsConstructor 
+@Entity 
+// Definimos constraints únicos a nivel de BD para asegurar integridad (nadie puede registrarse con el mismo email o RUN dos veces).
 @Table(name = "usuarios", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "email"), // El email debe ser único
-        @UniqueConstraint(columnNames = "run")     // El RUN debe ser único
+        @UniqueConstraint(columnNames = "email"), 
+        @UniqueConstraint(columnNames = "run")
 })
+// Implementar UserDetails es obligatorio para que Spring Security sepa usar nuestra clase "Usuario" para autenticar.
 public class Usuario implements UserDetails {
 
     @Id
@@ -44,43 +43,42 @@ public class Usuario implements UserDetails {
     private String email;
 
     @Column(nullable = false)
-    private String password; // Esta será la contraseña encriptada
+    private String password; // Aquí se guarda el Hash (BCrypt), nunca la contraseña plana.
 
     private String region;
     private String comuna;
     private String direccion;
 
-    // Usamos @Enumerated para guardar el rol como String en la BD (ej. "ADMIN" o "CLIENTE")
+    // Guardamos el rol como String ("ADMIN", "CLIENTE") en la base de datos para que sea legible.
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Rol rol;
 
-    // --- MÉTODOS DE USERDETAILS (Spring Security) ---
+    // --- INTEGRACIÓN CON SPRING SECURITY ---
 
     /**
-     * Retorna los permisos/roles del usuario.
-     * Spring Security usará esto para verificar la autorización (ej. @PreAuthorize("hasRole('ADMIN')"))
+     * Transforma nuestro Enum 'Rol' en una 'GrantedAuthority' que Spring entiende.
+     * OJO: Es vital agregar el prefijo "ROLE_" porque o si no, las anotaciones @PreAuthorize("hasRole('ADMIN')") fallan.
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Le asignamos el rol (ej. "ROLE_ADMIN", "ROLE_CLIENTE")
         return List.of(new SimpleGrantedAuthority("ROLE_" + rol.name()));
     }
 
+    // Le indicamos a Spring que nuestro "identificador principal" para el login es el email, no un username tradicional.
     @Override
     public String getUsername() {
-        // Le decimos a Spring Security que nuestro "username" es el email.
         return this.email;
     }
 
     @Override
     public String getPassword() {
-        // Retorna la contraseña. Spring Security la usará para compararla con la que envía el usuario.
         return this.password;
     }
 
-    // Los siguientes métodos los dejamos en 'true' para indicar que la cuenta está activa.
-    // Podríamos añadir lógica aquí para bloquear cuentas, hacer que las contraseñas expiren, etc.
+    // Métodos de estado de cuenta:
+    // Los dejamos en 'true' (hardcoded) por ahora. 
+    // Si más adelante queremos implementar "Banear usuario" o "Confirmar email", aquí pondríamos esa lógica.
 
     @Override
     public boolean isAccountNonExpired() {

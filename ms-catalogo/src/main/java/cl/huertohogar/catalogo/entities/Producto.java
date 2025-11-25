@@ -5,9 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Entidad que representa la tabla 'productos' en la base de datos.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,10 +14,13 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // ID técnico autogenerado (Primary Key).
 
+    // Este es el ID de negocio real.
+    // Importante: Tiene 'unique = true' a nivel de base de datos para asegurar integridad.
+    // El frontend lo usará en las rutas (ej: /producto/TOM-01) en lugar del ID numérico.
     @Column(nullable = false, unique = true)
-    private String sku; // Usaremos el SKU (ej. FR001) como un ID de negocio
+    private String sku;
 
     @Column(nullable = false)
     private String nombre;
@@ -34,14 +34,17 @@ public class Producto {
     @Column(nullable = false)
     private Integer stock;
 
-    @Column(length = 1000) // Permite una descripción más larga (hasta 1000 caracteres)
+    // Definimos un varchar(1000) porque el estándar (255) se queda corto para descripciones detalladas de productos.
+    @Column(length = 1000) 
     private String descripcion;
 
-    @Column(length = 512) // Permite URLs de imagen largas
+    // Ampliamos a 512 caracteres para no tener problemas si usamos URLs largas (ej: tokens de S3 o CDNs externos) en el futuro.
+    @Column(length = 512) 
     private String imagen;
     
     private String origen;
     
+    // Vital para la UI: define si mostramos el precio "$X / kilo" o "$X / unidad".
     @Column(nullable = false)
-    private String unidad; // ej. "por kilo", "por unidad"
+    private String unidad; 
 }

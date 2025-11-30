@@ -1,14 +1,12 @@
 package cl.huertohogar.pedido.repositories;
 
 import cl.huertohogar.pedido.entities.Pedido;
+import cl.huertohogar.pedido.entities.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 
-/**
- * Repositorio para la entidad Pedido.
- */
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
-    // Por ahora no necesitamos métodos personalizados,
-    // JpaRepository nos da findAll(), findById(), save(), deleteById(), etc.
+    List<Pedido> findByUsuario(Usuario usuario);
 }

@@ -29,8 +29,6 @@ public class PedidoController {
     private final UsuarioRepository usuarioRepository;
     private final ProductoRepository productoRepository;
 
-    // DTOs internos: Usamos estas clases estáticas solo para recibir la estructura JSON exacta que envía el carrito de compras.
-    // Es más limpio que crear archivos separados si solo se usan aquí.
     @Data
     public static class PedidoRequest {
         private Double total;
@@ -44,42 +42,35 @@ public class PedidoController {
         private Double precio;
     }
 
+    // --- CREAR PEDIDO (Ya lo tenías) ---
     @PostMapping
     public ResponseEntity<Pedido> createPedido(@RequestBody PedidoRequest request) {
-        // 1. SEGURIDAD: Identificamos al usuario desde el Token, NO desde el JSON del body.
-        // Esto evita que un usuario malintencionado haga un pedido a nombre de otro enviando un ID falso.
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName(); // El "subject" del token es el email
+        String email = auth.getName();
         
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 
-        // 2. Cabecera del Pedido: Creamos el objeto principal.
         Pedido pedido = new Pedido();
         pedido.setUsuario(usuario);
         pedido.setFecha(LocalDate.now());
-        pedido.setEstado("Pendiente"); // Estado inicial por defecto.
+        pedido.setEstado("Pendiente");
         pedido.setMetodoPago("Transferencia"); 
         pedido.setTotal(request.getTotal());
 
-        // 3. Lógica de Negocio: Procesamos cada ítem del carrito.
-        // Aquí hacemos dos cosas: Crear el detalle del pedido Y descontar el stock del inventario.
         List<DetallePedido> detalles = request.getProductos().stream().map(item -> {
             Producto producto = productoRepository.findById(item.getProductoId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado ID: " + item.getProductoId()));
 
-            // Validación crítica: No vender lo que no tenemos.
             if (producto.getStock() < item.getCantidad()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Stock insuficiente para: " + producto.getNombre());
             }
             
-            // Actualización de Inventario: Restamos el stock inmediatamente.
             producto.setStock(producto.getStock() - item.getCantidad());
-            productoRepository.save(producto); // Guardamos el nuevo stock del producto.
+            productoRepository.save(producto);
 
-            // Creamos la línea de detalle
             DetallePedido detalle = new DetallePedido();
-            detalle.setPedido(pedido); // Vinculamos al padre
+            detalle.setPedido(pedido);
             detalle.setProducto(producto);
             detalle.setCantidad(item.getCantidad());
             detalle.setPrecioUnitario(item.getPrecio());
@@ -87,11 +78,52 @@ public class PedidoController {
         }).collect(Collectors.toList());
 
         pedido.setDetalles(detalles);
-
-        // 4. Persistencia en Cascada: Al guardar el 'pedido' (padre), JPA guardará automáticamente todos los 'detalles' (hijos).
-        // Esto funciona gracias a la configuración @OneToMany(cascade = CascadeType.ALL) en la entidad Pedido.
         Pedido nuevoPedido = pedidoRepository.save(pedido);
         
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoPedido);
+    }
+
+    @GetMapping("/mis-pedidos")
+    public ResponseEntity<List<Pedido>> getMyPedidos() {
+        // 1. Identificamos al usuario por su token
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+
+        // 2. Buscamos solo sus pedidos
+        return ResponseEntity.ok(pedidoRepository.findByUsuario(usuario));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> cancelPedido(@PathVariable Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido no encontrado"));
+
+        // 1. Seguridad: Validar que el pedido sea del usuario que intenta borrarlo
+        if (!pedido.getUsuario().getEmail().equals(email)) {
+             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permiso para eliminar este pedido");
+        }
+
+        // 2. Regla de Negocio: Solo se pueden cancelar pedidos "Pendientes"
+        if (!"Pendiente".equalsIgnoreCase(pedido.getEstado())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se puede cancelar un pedido que ya fue procesado");
+        }
+
+        // 3. Devolución de Stock (Opcional pero recomendado)
+        // Recorremos los detalles para devolver los productos al inventario
+        for (DetallePedido detalle : pedido.getDetalles()) {
+            Producto producto = detalle.getProducto();
+            producto.setStock(producto.getStock() + detalle.getCantidad());
+            productoRepository.save(producto);
+        }
+        
+        // 4. Borramos
+        pedidoRepository.delete(pedido);
+        return ResponseEntity.noContent().build();
     }
 }

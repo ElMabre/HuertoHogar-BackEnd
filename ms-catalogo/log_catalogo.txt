@@ -51,3 +51,55 @@ This generated password is for development use only. Your security configuration
 2025-12-12T14:03:46.830Z  INFO 1528 --- [ms-catalogo] [nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2025-12-12T14:03:47.863Z  INFO 1528 --- [ms-catalogo] [nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1004 ms
 Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+2025-12-12T15:28:24.779Z  INFO 1528 --- [ms-catalogo] [nio-8082-exec-2] o.apache.coyote.http11.Http11Processor   : Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+
+java.lang.IllegalArgumentException: Invalid character found in method name [MGLNDD_18.211.31.168_80820x0a...]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:402) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:272) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+2025-12-12T17:18:41.889Z  INFO 1528 --- [ms-catalogo] [nio-8082-exec-7] o.apache.coyote.http11.Http11Processor   : Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+
+java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x00{0x010x000x00w0x030x030xbf)0xfa0x890xb00xec0xb9Y80xee0xc70xd2g0xd20xed,0x960x91)0xa6*0xa7}0x89G0x8b0xa70xc9H0xa10xd50xee0x000x000x1a0xc0/0xc0+0xc00x110xc00x070xc00x130xc00x090xc00x140xc00x0a0x000x050x00/0x0050xc00x120x000x0a0x010x000x0040x000x050x000x050x010x000x000x000x000x000x0a0x000x080x000x060x000x170x000x180x000x190x000x0b0x000x020x010x000x000x0d0x000x100x000x0e0x040x010x040x030x020x010x020x030x040x010x050x010x060x010xff0x010x000x010x00...]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:402) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:272) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.48.jar!/:na]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+Hibernate: select p1_0.id,p1_0.categoria,p1_0.descripcion,p1_0.imagen,p1_0.nombre,p1_0.origen,p1_0.precio,p1_0.sku,p1_0.stock,p1_0.unidad from productos p1_0
+2025-12-12T17:37:10.820Z  INFO 1528 --- [ms-catalogo] [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-12T17:37:12.171Z  INFO 1528 --- [ms-catalogo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-12-12T17:37:14.524Z  INFO 1528 --- [ms-catalogo] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-12T17:37:15.505Z  WARN 1528 --- [ms-catalogo] [l-1:housekeeper] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@2d600602 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-12-12T17:37:15.748Z  INFO 1528 --- [ms-catalogo] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-12T17:37:16.089Z  INFO 1528 --- [ms-catalogo] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

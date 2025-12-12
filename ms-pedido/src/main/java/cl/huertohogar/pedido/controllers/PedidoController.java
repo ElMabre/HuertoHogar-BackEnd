@@ -13,6 +13,7 @@ import com.mercadopago.client.preference.PreferenceClient;
 import com.mercadopago.client.preference.PreferenceItemRequest;
 import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.resources.preference.Preference;
+import com.mercadopago.exceptions.MPApiException;
 import jakarta.annotation.PostConstruct;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/pedidos")
@@ -71,7 +71,6 @@ public class PedidoController {
         private Double precio;
     }
 
-    // --- CREAR PEDIDO CON MERCADO PAGO ---
     @PostMapping
     public ResponseEntity<Map<String, Object>> createPedido(@RequestBody PedidoRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -90,7 +89,6 @@ public class PedidoController {
         List<DetallePedido> detalles = new ArrayList<>();
         List<PreferenceItemRequest> mpItems = new ArrayList<>();
 
-        // Procesar productos y preparar items para Mercado Pago
         for (DetalleRequest item : request.getProductos()) {
             Producto producto = productoRepository.findById(item.getProductoId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado ID: " + item.getProductoId()));
@@ -99,11 +97,9 @@ public class PedidoController {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Stock insuficiente para: " + producto.getNombre());
             }
             
-            // Actualizar stock
             producto.setStock(producto.getStock() - item.getCantidad());
             productoRepository.save(producto);
 
-            // Crear detalle
             DetallePedido detalle = new DetallePedido();
             detalle.setPedido(pedido);
             detalle.setProducto(producto);
@@ -111,7 +107,8 @@ public class PedidoController {
             detalle.setPrecioUnitario(item.getPrecio());
             detalles.add(detalle);
 
-            // Crear item para Mercado Pago
+            BigDecimal precioFinal = BigDecimal.valueOf(item.getPrecio().intValue());
+
             PreferenceItemRequest mpItem = PreferenceItemRequest.builder()
                     .id(String.valueOf(producto.getId()))
                     .title(producto.getNombre())
@@ -120,7 +117,7 @@ public class PedidoController {
                     .categoryId("home")
                     .quantity(item.getCantidad())
                     .currencyId("CLP")
-                    .unitPrice(new BigDecimal(item.getPrecio()))
+                    .unitPrice(precioFinal)
                     .build();
             mpItems.add(mpItem);
         }
@@ -128,32 +125,41 @@ public class PedidoController {
         pedido.setDetalles(detalles);
         Pedido nuevoPedido = pedidoRepository.save(pedido);
         
-        // --- INTEGRACIÓN MERCADO PAGO ---
         String paymentUrl = null;
         try {
+            // Valores por defecto seguros si las variables de entorno fallan
+            String finalSuccess = (backUrlSuccess != null && !backUrlSuccess.isEmpty()) ? backUrlSuccess : "http://18.211.31.168/pago-exitoso";
+            String finalFailure = (backUrlFailure != null && !backUrlFailure.isEmpty()) ? backUrlFailure : "http://18.211.31.168/pago-fallido";
+            String finalPending = (backUrlPending != null && !backUrlPending.isEmpty()) ? backUrlPending : "http://18.211.31.168/pago-pendiente";
+
+            System.out.println("DEBUG MP URLS: " + finalSuccess);
+
             PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                    .success(backUrlSuccess)
-                    .failure(backUrlFailure)
-                    .pending(backUrlPending)
+                    .success(finalSuccess)
+                    .failure(finalFailure)
+                    .pending(finalPending)
                     .build();
 
             PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                     .items(mpItems)
                     .backUrls(backUrls)
-                    .autoReturn("approved")
-                    .externalReference(String.valueOf(nuevoPedido.getId())) // Referencia para conciliar después
+                    // .autoReturn("approved")  <-- COMENTADO PARA EVITAR ERROR CON HTTP
+                    .externalReference(String.valueOf(nuevoPedido.getId()))
                     .build();
 
             PreferenceClient client = new PreferenceClient();
             Preference preference = client.create(preferenceRequest);
-            paymentUrl = preference.getInitPoint(); // URL para redirigir al usuario
+            paymentUrl = preference.getInitPoint();
 
+        } catch (MPApiException e) {
+            System.err.println("============== ERROR MERCADO PAGO ==============");
+            System.err.println("Content: " + e.getApiResponse().getContent());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error API MP: " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al comunicar con Mercado Pago: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error general MP: " + e.getMessage());
         }
 
-        // Respuesta combinada
         Map<String, Object> response = new HashMap<>();
         response.put("pedido", nuevoPedido);
         response.put("paymentUrl", paymentUrl);
@@ -161,14 +167,13 @@ public class PedidoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    // ... (El resto de métodos getMyPedidos y cancelPedido siguen igual)
     @GetMapping("/mis-pedidos")
     public ResponseEntity<List<Pedido>> getMyPedidos() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
-        
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
-
         return ResponseEntity.ok(pedidoRepository.findByUsuario(usuario));
     }
 
@@ -176,24 +181,20 @@ public class PedidoController {
     public ResponseEntity<Void> cancelPedido(@PathVariable Long id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
-
         Pedido pedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido no encontrado"));
-
+        
         if (!pedido.getUsuario().getEmail().equals(email)) {
-             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permiso para eliminar este pedido");
+             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado");
         }
-
         if (!"Pendiente".equalsIgnoreCase(pedido.getEstado())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se puede cancelar un pedido que ya fue procesado");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se puede cancelar");
         }
-
         for (DetallePedido detalle : pedido.getDetalles()) {
             Producto producto = detalle.getProducto();
             producto.setStock(producto.getStock() + detalle.getCantidad());
             productoRepository.save(producto);
         }
-        
         pedidoRepository.delete(pedido);
         return ResponseEntity.noContent().build();
     }
